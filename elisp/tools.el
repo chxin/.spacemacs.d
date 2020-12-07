@@ -25,6 +25,9 @@
 (setq rmh-elfeed-org-files (list
                             "~/Documents/Garage/orgible/elfeed.org"
                             ))
+;; ===== dired mode
+(setq ls-lisp-use-insert-directory-program t)      ;; use external ls
+(when (eq system-type 'darwin) (setq insert-directory-program "/usr/local/bin/gls"))
 ;; ===== email mu4e mode
 (setq mu4e-account-alist t
       mu4e-enable-notifications t)
@@ -201,7 +204,7 @@
   (add-hook 'after-init-hook (create-frame-font-mac)))
 (defun create-frame-font-linux ()  ;; linux emacs
   (set-face-attribute
-   'default nil :font "Source Code Pro 15")
+   'default nil :font "Source Code Pro 24")
   ;; Chinese Font
   (dolist (charset '( han symbol cjk-misc bopomofo))
     (set-fontset-font (frame-parameter nil 'font)
@@ -231,7 +234,7 @@
                     (font-spec :family "GulimChe" :size 17)))
 (when (and (equal system-type 'windows-nt) (window-system))
   (add-hook 'after-init-hook (create-frame-font-w32)))
-(defun  emacs-daemon-after-make-frame-hook(&optional f) ; emacsclient
+(defun emacs-daemon-after-make-frame-hook(&optional f) ; emacsclient
   ;; (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
   ;; (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   ;; (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -297,7 +300,6 @@
              '("s" "Passwords" entry (file "~/Documents/Garage/orgible/oxrign/passwords.org.cpt")
                "* %U - %^{title} %^G\n\n  - NAME: %^{User Name}\n  - PASSWORDS: %(get-or-create-password)"
                :empty-lines 1 :kill-buffer t))
-
 ;; ===== Bill
 (defun get-year-and-month ()
   (list (format-time-string "%Y") (format-time-string "%m")))
@@ -336,7 +338,7 @@
    "com.apple.inputmethod.SCIM.Shuangpin"))
 (sis-global-cursor-color-mode t)
 (sis-global-respect-mode t)
-(sis-global-follow-context-mode t)
+;; (sis-global-follow-context-mode t)
 (sis-global-inline-mode t)
 ;; === chinese input method
 ;; (global-set-key (kbd "\C-\\") nil)
@@ -349,7 +351,8 @@
 (define-key pyim-mode-map "." 'pyim-page-next-page)
 (define-key pyim-mode-map "," 'pyim-page-previous-page)
 (pyim-isearch-mode 1)
-
+;; ===== emacs application framework
+(when (equal system-type 'gnu/linux) (require 'eaf))
 
 ;; end
 (provide 'tools)

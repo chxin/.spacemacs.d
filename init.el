@@ -85,6 +85,8 @@ values."
      go-translate
      disaster
      posframe
+     ;; emacsql
+     ;; emacsql-sqlite
      ;; ange-crypt
      ;; realgud-lldb
      ;; org-mind-map
@@ -132,7 +134,7 @@ values."
    ;; when the current branch is not `develop'. Note that checking for
    ;; new versions works via git commands, thus it calls GitHub services
    ;; whenever you start Emacs. (default nil)
-   dotspacemacs-check-for-update t
+   dotspacemacs-check-for-update nil
    ;; If non-nil, a form that evaluates to a package directory. For example, to
    ;; use different package directories for different Emacs versions, set this
    ;; to `emacs-version'.
@@ -169,20 +171,34 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(
-                         spacemacs-dark
-                         dichromacy
-                         leuven
-                         )
+   dotspacemacs-themes (if (eq system-type 'darwin)
+                           '(
+                             dichromacy
+                             spacemacs-dark
+                             spacemacs-light
+                             leuven
+                             )
+                         (if (eq system-type 'gnu/linux)
+                             '(
+                               spacemacs-dark
+                               spacemacs-light
+                               )))
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Code Pro" ;;Menlo ;;"Noto Sans Mono"
-                               :size 24
-                               :weight normal
-                               :width normal
-                               :powerline-scale 1.1)
+   dotspacemacs-default-font (if (eq system-type 'mac)
+                                 '("Menlo" ;;Menlo ;;"Noto Sans Mono" ;; "Source Code Pro"
+                                   :size 19
+                                   :weight normal
+                                   :width normal
+                                   :powerline-scale 1.1)
+                               (if (eq system-type 'gnu/linux)
+                                   '("Source Code Pro" ;;Menlo ;;"Noto Sans Mono" ;; "Source Code Pro"
+                                     :size 24
+                                     :weight normal
+                                     :width normal
+                                     :powerline-scale 1.1)))
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -295,17 +311,8 @@ values."
    ;; Control line numbers activation.
    ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
    ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
-   ;; This variable can also be set to a property list for finer control:
-   ;; '(:relative nil
-   ;;   :disabled-for-modes dired-mode
-   ;;                       doc-view-mode
-   ;;                       markdown-mode
-   ;;                       org-mode
-   ;;                       pdf-view-mode
-   ;;                       text-mode
-   ;;   :size-limit-kb 1000)
    ;; (default nil)
-   ;; dotspacemacs-line-numbers `relative
+   ;; This variable can also be set to a property list for finer control:
    dotspacemacs-line-numbers '(:relative nil
                                          :disabled-for-modes
                                          dired-mode
@@ -314,7 +321,7 @@ values."
                                          pdf-view-mode
                                          org-present-mode
                                          markdown-mode
-                                         org-mode
+                                         ;; org-mode
                                          pdf-view-mode
                                          PDFView-mode
                                          text-mode
@@ -373,7 +380,6 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
-
   ;; The following setting is different from the document so that you
   ;; can override the document path by setting your path in the variable
   ;; org-mode-user-lisp-path
@@ -387,7 +393,6 @@ you should place your code here."
   (require 'norange-gtd)
   (require 'emacs-authoring)
   (require 'tools)
-  (require 'eaf)
 )
 
 ;; do not write anything past this comment. this is where emacs will
@@ -406,7 +411,7 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol t)
  '(evil-want-y-yank-to-eol nil)
  '(package-selected-packages
-   '(pyim pyim-basedict xr posframe pangu-spacing find-by-pinyin-dired ace-pinyin pinyinlib go-translate bibtex-completion sis terminal-focus-reporting ebib realgud-lldb realgud test-simple loc-changes load-relative org-mind-map org-re-reveal adoc-mode markup-faces org-noter rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby demo-it origami notmuch stickyfunc-enhance srefactor helm-cscope xcscope yaml-mode web-beautify livid-mode skewer-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode org-brain ox-twbs org-ref pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core org-ql peg ov org-super-agenda ts aio elfeed elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet spray powershell ox-gfm mu4e-maildirs-extension mu4e-alert ht solarized-theme zenburen-theme company-auctex auctex-latexmk auctex ox-reveal web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data ox-ioslide disaster company-c-headers cmake-mode clang-format xterm-color unfill smeargle shell-pop orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term magit-gitflow magit-popup htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit transient git-commit with-editor eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company-anaconda company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete request-deferred deferred graphql yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic mmm-mode markdown-toc markdown-mode gh-md leetcode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))
+   '(emacsql-sqlite emacsql pyim pyim-basedict xr posframe pangu-spacing find-by-pinyin-dired ace-pinyin pinyinlib go-translate bibtex-completion sis terminal-focus-reporting ebib realgud-lldb realgud test-simple loc-changes load-relative org-mind-map org-re-reveal adoc-mode markup-faces org-noter rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby demo-it origami notmuch stickyfunc-enhance srefactor helm-cscope xcscope yaml-mode web-beautify livid-mode skewer-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode org-brain ox-twbs org-ref pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core org-ql peg ov org-super-agenda ts aio elfeed elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet spray powershell ox-gfm mu4e-maildirs-extension mu4e-alert ht solarized-theme zenburen-theme company-auctex auctex-latexmk auctex ox-reveal web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data ox-ioslide disaster company-c-headers cmake-mode clang-format xterm-color unfill smeargle shell-pop orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term magit-gitflow magit-popup htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit transient git-commit with-editor eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company-anaconda company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete request-deferred deferred graphql yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic mmm-mode markdown-toc markdown-mode gh-md leetcode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))
  '(paradox-github-token t)
  '(send-mail-function 'smtpmail-send-it)
  '(smtpmail-smtp-server "mail.hust.edu.cn")
