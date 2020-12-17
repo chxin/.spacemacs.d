@@ -40,6 +40,7 @@
       org-enable-sticky-header t
       org-enable-epub-support t
       org-enable-reveal-js-support nil)
+(add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
 ;; === org format
 (setq-default indent-tabs-mode nil)
 (setq default-tab-width 4)

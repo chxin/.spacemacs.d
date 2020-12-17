@@ -37,14 +37,14 @@
       )))
 ;; ===== c and cpp file mode
 ;; === clang
+(setq c-c++-enable-clang-support t
+      c-c++-default-mode-for-headers 'c++-mode)
 ;; Bind clang-format-region to C-M-tab in all modes:
 (global-set-key [C-M-tab] 'clang-format-region)
 ;; Bind clang-format-buffer to tab on the c++-mode only:
 (add-hook 'c++-mode-hook 'clang-format-bindings)
 (defun clang-format-bindings ()
   (define-key c++-mode-map [tab] 'clang-format-buffer))
-(setq c-c++-enable-clang-support t
-      c-c++-default-mode-for-headers 'c++-mode)
 ;; === format code when saving according to the .clang-format file
 ;; https://eklitzke.org/smarter-emacs-clang-format
 ;; (defun clang-format-buffer-smart ()

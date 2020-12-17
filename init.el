@@ -53,8 +53,9 @@ values."
      ;; myleetcode
      latex
      pdf-tools
+     ;; pdf
      bibtex
-     c-c++
+     (c-c++ :variables c-c++-enable-clang-support t)
      helm
      semantic
      cscope
@@ -63,13 +64,14 @@ values."
      emacs-lisp
      git
      ;; ox-ioslide
-     org
+     (org :variables org-projectile-file "~/Documents/Garage/orgible/refile/projects.org")
      shell
      spell-checking
-     syntax-checking
+     (syntax-checking :variables syntax-checking-enable-by-default nil)
      version-control
      mu4e
      elfeed
+     ;; tabs
      ;; asciidoc
 	 )
    ;; List of additional packages that will be installed without being
@@ -82,9 +84,11 @@ values."
      org-re-reveal
      ebib
      sis
-     go-translate
+     ;; go-translate
+     chinese-word-at-point
      disaster
      posframe
+     ;; org-projectile
      ;; emacsql
      ;; emacsql-sqlite
      ;; ange-crypt
@@ -100,7 +104,8 @@ values."
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(projectile
+   dotspacemacs-excluded-packages '(
+				                            ;; projectile
                                     company-tern
                                     )
    ;; Defines the behaviour of Spacemacs when installing packages.
@@ -187,7 +192,7 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font (if (eq system-type 'mac)
+   dotspacemacs-default-font (if (eq system-type 'darwin)
                                  '("Menlo" ;;Menlo ;;"Noto Sans Mono" ;; "Source Code Pro"
                                    :size 19
                                    :weight normal
@@ -342,7 +347,7 @@ values."
    dotspacemacs-highlight-delimiters 'all
    ;; If non nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
@@ -361,7 +366,7 @@ values."
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
-It is called immediately after `dotspacemacs/init', before layer configuration
+It is called-interactively-p-functionslled immediately after `dotspacemacs/init', before layer configuration
 executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
@@ -387,8 +392,6 @@ you should place your code here."
   (if (boundp 'org-mode-user-lisp-path)
       (add-to-list 'load-path org-mode-user-lisp-path)
     (add-to-list 'load-path (expand-file-name "~/.spacemacs.d/elisp")))
-  (add-to-list 'auto-mode-alist '("\\.\\(org\\|org_archive\\|txt\\)$" . org-mode))
-  (add-to-list 'load-path "~/.spacemacs.d/site-lisp/emacs-application-framework")
   (require 'language)
   (require 'norange-gtd)
   (require 'emacs-authoring)
@@ -402,16 +405,8 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#0a0814" "#f2241f" "#67b11d" "#b1951d" "#4f97d7" "#a31db1" "#28def0" "#b2b2b2"])
- '(custom-safe-themes
-   '("d91ef4e714f05fff2070da7ca452980999f5361209e679ee988e3c432df24347" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" default))
- '(evil-want-Y-yank-to-eol t)
- '(evil-want-y-yank-to-eol nil)
  '(package-selected-packages
-   '(emacsql-sqlite emacsql pyim pyim-basedict xr posframe pangu-spacing find-by-pinyin-dired ace-pinyin pinyinlib go-translate bibtex-completion sis terminal-focus-reporting ebib realgud-lldb realgud test-simple loc-changes load-relative org-mind-map org-re-reveal adoc-mode markup-faces org-noter rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby demo-it origami notmuch stickyfunc-enhance srefactor helm-cscope xcscope yaml-mode web-beautify livid-mode skewer-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode org-brain ox-twbs org-ref pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core org-ql peg ov org-super-agenda ts aio elfeed elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet spray powershell ox-gfm mu4e-maildirs-extension mu4e-alert ht solarized-theme zenburen-theme company-auctex auctex-latexmk auctex ox-reveal web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data ox-ioslide disaster company-c-headers cmake-mode clang-format xterm-color unfill smeargle shell-pop orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term magit-gitflow magit-popup htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit transient git-commit with-editor eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company-anaconda company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete request-deferred deferred graphql yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic mmm-mode markdown-toc markdown-mode gh-md leetcode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))
+   '(org-re-reveal chinese-word-at-point org-projectile emacsql-sqlite emacsql pyim pyim-basedict xr posframe pangu-spacing find-by-pinyin-dired ace-pinyin pinyinlib go-translate bibtex-completion sis terminal-focus-reporting ebib realgud-lldb realgud test-simple loc-changes load-relative org-mind-map adoc-mode markup-faces org-noter rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby demo-it origami notmuch stickyfunc-enhance srefactor helm-cscope xcscope yaml-mode web-beautify livid-mode skewer-mode json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc coffee-mode org-brain ox-twbs org-ref pdf-tools key-chord ivy tablist helm-bibtex parsebib biblio biblio-core org-ql peg ov org-super-agenda ts aio elfeed elfeed-web simple-httpd elfeed-org elfeed-goodies ace-jump-mode noflet spray powershell ox-gfm mu4e-maildirs-extension mu4e-alert ht solarized-theme zenburen-theme company-auctex auctex-latexmk auctex ox-reveal web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data ox-ioslide disaster company-c-headers cmake-mode clang-format xterm-color unfill smeargle shell-pop orgit org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term magit-gitflow magit-popup htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit transient git-commit with-editor eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company-anaconda company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete request-deferred deferred graphql yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode dash-functional helm-pydoc cython-mode anaconda-mode pythonic mmm-mode markdown-toc markdown-mode gh-md leetcode ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))
  '(paradox-github-token t)
  '(send-mail-function 'smtpmail-send-it)
  '(smtpmail-smtp-server "mail.hust.edu.cn")

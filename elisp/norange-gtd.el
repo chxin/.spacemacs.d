@@ -6,8 +6,8 @@
 (if (boundp 'org-user-agenda-files)
     (setq org-agenda-files org-user-agenda-files)
   (setq org-agenda-files (quote ("~/Documents/Garage/orgible/inbox.org"
-                                 "~/Documents/Garage/orgible/refile/"
-                                 "~/Documents/Garage/orgible/oxrign/"
+                                 ;; "~/Documents/Garage/orgible/refile/"
+                                 ;; "~/Documents/Garage/orgible/oxrign/"
                                  ))))
 ;; ===== Standard key bindings
 ;; Custom Key Bindings
@@ -458,15 +458,20 @@ A prefix arg forces clock in of the default task."
 ;; ===== archive
 (setq org-archive-location "~/Documents/Garage/orgible/refile/archive.org::datetree/* Finished Tasks")
 ;; ===== org projectile
+;; (add-to-list 'load-path "~/.spacemacs.d/site-lisp/org-projectile/")
 (setq org-projectile-projects-file
       "~/Documents/Garage/orgible/refile/projects.org")
+;; (require 'org-projectile)
+;; (with-eval-after-load 'org-agenda
+;;   (require 'org-projectile)
+;;   (push (org-projectile-todo-files) org-agenda-files))
 ;; (with-eval-after-load 'org-projectile
-;; (push (org-projectile-project-todo-entry) org-capture-templates)
+;;   (push (org-projectile-project-todo-entry) org-capture-templates)
 ;;   (push (org-projectile-project-todo-entry
 ;;          :capture-template org-projectile-capture-template
 ;;          :capture-heading "Project ToDo"
 ;;          :capture-character "l") org-capture-templates)
-;; )
+;;   )
 ;; (setq org-agenda-files (append org-agenda-files (org-projectile-todo-files)))
 
 ;; end

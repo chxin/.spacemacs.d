@@ -11,13 +11,11 @@
 (setq-default google-translate-default-target-language "zh-cn")
 (setq-default google-translate-translation-directions-alist '(("en" . "zh-cn")("zh-cn" . "en")))
 (setq-default google-translate--tkk-url "http://translate.google.cn")
-(setq-default google-translate-base-url "http://translate.google.cn/translate_a/single")
+(setq-default google-translate-base-url "http://translate.google.cn/translate_a/t")
 (setq-default google-translate-listen-url "http://translate.google.cn/translate_tts")
 (setq-default google-translate-output-destination 'echo-area)
 (setq-default google-translate-pop-up-buffer-set-focus t)
-(setq-default go-translate-base-url "http://translate.google.cn")
-(setq-default go-translate-local-language "zh-CN")
-(setq-default go-translate-target-language "en")
+(setq-default google-translate-backend-method 'curl)
 ;; ===== elfeed mode
 (require 'elfeed-org)
 (elfeed-org)
@@ -26,6 +24,7 @@
                             "~/Documents/Garage/orgible/elfeed.org"
                             ))
 ;; ===== dired mode
+(setq dired-quick-sort-suppress-setup-warning t)
 (setq ls-lisp-use-insert-directory-program t)      ;; use external ls
 (when (eq system-type 'darwin) (setq insert-directory-program "/usr/local/bin/gls"))
 ;; ===== email mu4e mode
@@ -352,7 +351,9 @@
 (define-key pyim-mode-map "," 'pyim-page-previous-page)
 (pyim-isearch-mode 1)
 ;; ===== emacs application framework
-(when (equal system-type 'gnu/linux) (require 'eaf))
+(when (equal system-type 'gnu/linux)
+  (add-to-list 'load-path "~/.spacemacs.d/site-lisp/emacs-application-framework")
+  (require 'eaf))
 
 ;; end
 (provide 'tools)
