@@ -1,8 +1,31 @@
+;; ===== spell check
+(add-hook 'prog-mode-hook #'flyspell-prog-mode)
 ;; ===== autocompletion mode
+;; === spacemacs configuration-layers
 (setq auto-completion-enable-sort-by-usage t
-      auto-completion-enable-snippets-in-popup t)
-(global-company-mode t)
-(setq company-global-modes (list 'c-mode 'c++-mode 'BSDmakefile-mode 'makefile-mode 'Verilog-mode))
+      auto-completion-enable-help-tooltip t
+      auto-completion-use-company-box t
+     )
+;; === spacemacs user config
+(setq auto-completion-return-key-behavior 'complete
+      auto-completion-tab-key-behavior 'cycle
+      auto-completion-complete-with-key-sequence t
+      auto-completion-complete-with-key-sequence-delay 0.1
+      auto-completion-idle-delay 0.2
+      auto-completion-private-snippets-directory '(
+                                                   "~/Documents/Garage/orgible/snippets/"
+                                                   )
+      auto-completion-minimum-prefix-length 2
+      auto-completion-enable-snippets-in-popup t
+      )
+(setq auto-completion-complete-with-key-sequence "ss")
+;; (global-company-mode t)
+;; (global-company-mode)
+;; (setq company-global-modes (list 'c-mode 'c++-mode 'BSDmakefile-mode 'makefile-mode 'Verilog-mode))
+;; === yassnippet
+(setq yas-snippet-dirs
+      '("~/Documents/Garage/orgible/snippets/"                 ;; personal snippets
+        ))
 ;; ===== leetcode mode
 (setq-default leetcode-prefer-language "cpp")
 (setq-default leetcode-prefer-sql "mysql")
@@ -186,12 +209,12 @@
 ;; 까까까까까까까까까까까까까까까까까까까까|
 (defun create-frame-font-mac ()  ;; mac emacs
   (set-face-attribute
-   'default nil :font "Menlo 19")
+   'default nil :font "Source Code Pro 22")
   ;; Chinese Font
   (dolist (charset '( han symbol cjk-misc bopomofo))
     (set-fontset-font (frame-parameter nil 'font)
                       charset
-                      (font-spec :family "STKaiti" :size 22)))
+                      (font-spec :family "STKaiti" :size 26)))
   (set-fontset-font (frame-parameter nil 'font)
                     'kana
                     (font-spec :family "Hiragino Sans" :size 22))
@@ -265,10 +288,6 @@
     (setq appt-time-msg-list nil)
     (org-agenda-to-appt)))
 (ad-activate 'org-agenda-redo)
-;; ===== yassnippet
-(setq yas-snippet-dirs
-      '("~/Documents/Garage/orgible/snippets/"                 ;; personal snippets
-        ))
 ;; ===== buffer
 ;; http://camdez.com/blog/2013/11/14/emacs-show-buffer-file-name/
 (defun chxin/show-and-copy-buffer-filename ()
@@ -354,6 +373,31 @@
 (when (equal system-type 'gnu/linux)
   (add-to-list 'load-path "~/.spacemacs.d/site-lisp/emacs-application-framework")
   (require 'eaf))
-
+;; ===== sdcv
+(add-to-list 'load-path (expand-file-name "/Users/xin/Downloads/stardict/sdcv/"))
+(add-to-list 'load-path (expand-file-name "/Users/xin/Downloads/stardict/insert-translated-name/"))
+(add-to-list 'load-path (expand-file-name "/Users/xin/Downloads/stardict/company-english-helper/"))
+(require 'company-english-helper)
+(require 'insert-translated-name)
+(require 'sdcv)
+(require 'posframe)
+(setq sdcv-say-word-p t) 		; do not pronounce
+(setq sdcv-dictionary-data-dir (file-truename "/Users/xin/.stardict/dic"))
+(setq sdcv-dictionary-simple-list    ;setup dictionary list for simple search
+      '(
+        "朗道汉英字典5.0"
+        "朗道英汉字典5.0"
+        "懒虫简明英汉词典"
+        "懒虫简明汉英词典"
+        ))
+(setq sdcv-dictionary-complete-list     ;setup dictionary list for complete search
+      '(
+        "牛津现代英汉双解词典"
+        "CEDICT汉英辞典"
+        "懒虫简明汉英词典"
+        "懒虫简明英汉词典"
+        "朗道汉英字典5.0"
+        "朗道英汉字典5.0"
+        ))
 ;; end
 (provide 'tools)

@@ -1,5 +1,3 @@
-;; ===== spell check
-(add-hook 'prog-mode-hook #'flyspell-prog-mode)
 ;; ===== latex mode
 (setq-default TeX-PDF-mode t)
 (add-hook 'doc-view-mode-hook 'auto-revert-mode)
@@ -17,7 +15,7 @@
       '(("okular" "okular --unique %o#src:%n`pwd`/./%b")
         ;; skim -g option to open skim background
         ("macskim" "displayline -b %n %o %b")
-        ("pdf tools" tex-pdf-tools-sync-view)
+        ("pdf tools" TeX-pdf-tools-sync-view)
         ("zathura"
          ("zathura %o"
           (mode-io-correlate
