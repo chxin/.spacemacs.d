@@ -1,0 +1,7 @@
+# name: for
+# key: for
+# group: verilog
+# --
+for (${1:Initial}; ${2:Condition}; ${3:Iterate}) begin
+   $0
+end

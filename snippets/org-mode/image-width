@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: image-width
+# key: imagewidth
+# --
+#+ATTR_ORG: :width 40 #+ATTR_latex: :width 40 #+ATTR_HTML: :width 40

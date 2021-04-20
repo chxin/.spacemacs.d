@@ -43,19 +43,19 @@
       (setq sdcv-dictionary-data-dir (file-truename "/Users/xin/.stardict/dic"))
       (setq sdcv-dictionary-simple-list
             '(
-              "朗道汉英字典 5.0"
-              "朗道英汉字典 5.0"
+              "朗道汉英字典5.0"
+              "朗道英汉字典5.0"
               "懒虫简明英汉词典"
               "懒虫简明汉英词典"
               ))
       (setq sdcv-dictionary-complete-list
             '(
               "牛津现代英汉双解词典"
-              "CEDICT 汉英辞典"
+              "CEDICT汉英辞典"
               "懒虫简明汉英词典"
               "懒虫简明英汉词典"
-              "朗道汉英字典 5.0"
-              "朗道英汉字典 5.0"
+              "朗道汉英字典5.0"
+              "朗道英汉字典5.0"
               ))
       )
     )
@@ -99,9 +99,13 @@
 (defun xinstool/init-pangu-spacing ()
   (use-package pangu-spacing
     :defer t
-    :init (progn (global-pangu-spacing-mode 1)
+    :init (progn (global-pangu-spacing-mode t)
                  (spacemacs|hide-lighter pangu-spacing-mode)
                  (setq-default pangu-spacing-real-insert-separtor t)
+                 ;; Always insert `real' space in lisp-mode
+                 (add-hook 'elisp-hook
+                           '(lambda ()
+                              (set (make-local-variable 'pangu-spacing-real-insert-separtor) nil)))
                  ;; Always insert `real' space in org-mode.
                  (add-hook 'org-mode-hook
                            '(lambda ()

@@ -39,11 +39,22 @@ This function should only modify configuration layer settings."
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      (auto-completion :variables
+                      auto-completion-return-key-behavior 'complete
+                      auto-completion-tab-key-behavior 'cycle
+                      auto-completion-complete-with-key-sequence "gk"
+                      auto-completion-complete-with-key-sequence-delay 0.1
+                      auto-completion-minimum-prefix-length 2
+                      auto-completion-idle-delay 0.2
+                      auto-completion-private-snippets-directory nil
+                      auto-completion-enable-snippets-in-popup nil
                       auto-completion-enable-sort-by-usage t
                       auto-completion-enable-help-tooltip t
                       auto-completion-use-company-box t
-                      :enabled-for
+                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
+                      :enabled-for-modes
                       c c++ verilog python
+                      :disabled-for-modes
+                      org
                       )
      (better-defaults :variables better-defaults-move-to-end-of-code-first t)
      emacs-lisp
@@ -90,6 +101,7 @@ This function should only modify configuration layer settings."
             )
      (python :variables
              python-backend 'lsp
+             ;; python-lsp-server 'mspyls
              python-lsp-server 'pyls
              python-test-runner 'pytest
              python-formatter 'yapf
@@ -102,6 +114,9 @@ This function should only modify configuration layer settings."
             latex-enable-folding t
             latex-enable-magic t
   	        latex-backend 'lsp)
+     (dash :variables
+           dash-autoload-common-docsets nil
+           dash-docs-docset-newpath "~/Library/ApplicationSupport/Dash/DocSets")
      xinstool
      )
 
@@ -211,7 +226,7 @@ It should only modify the values of Spacemacs settings."
    ;; with `:variables' keyword (similar to layers). Check the editing styles
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
-   dotspacemacs-editing-style 'vim
+   dotspacemacs-editing-style 'hybrid
 
    ;; If non-nil show the version string in the Spacemacs buffer. It will
    ;; appear as (spacemacs version)@(emacs version)
@@ -561,4 +576,5 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
   ;; (load "~/.spacemacs.d/elisp/spacemacs/spaceorg.el")
+  ;; (load "~/.spacemacs.d/elisp/my-verilog.el")
   )

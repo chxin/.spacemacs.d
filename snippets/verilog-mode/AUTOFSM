@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: /*AUTOASCIIENUM*/ of verilog-auto
+# key: AUTOFSM
+# --
+/*AUTOASCIIENUM(“state_condition_register”, “state_assign_register”, “state_assign_value”)*/

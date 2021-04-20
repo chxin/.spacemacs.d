@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: org graphviz
+# key: orggraphviz
+# --
+
+#+BEGIN_SRC dot :file ./test.png :cmdline -Kdot -Tpng
+    digraph test{
+    a->b;
+    a->e;
+    b->c;
+    c->d;
+    }
+#+END_SRC

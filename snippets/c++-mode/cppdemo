@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+# name: cppdemo
+# key: cppdemo
+# --
+
+#include<iostream>
+#include<string>
+#include<vector>
+#include<map>
+using namespace std;
+
+$0
+
+int main() {
+
+    return 0;
+}

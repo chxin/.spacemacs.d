@@ -1,0 +1,9 @@
+# name: covergroup
+# key: covergroup
+# group: verilog
+# --
+covergroup ${1:covergroup_identifier};
+   ${2:coverpoint_identifier} : coverpoint ${3:expression} {
+      $0
+   }
+endgroup

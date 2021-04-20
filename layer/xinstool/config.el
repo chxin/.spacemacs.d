@@ -131,6 +131,7 @@
                             (:endgroup)
                             ("WAITING" . ?w)
                             ("HOLD" . ?h)
+                            ("Habit" . ?a)
                             ("PERSONAL" . ?P)
                             ("WORK" . ?W)
                             ("FARM" . ?F)
@@ -212,3 +213,46 @@
 ;; ===== layouts and workspace
 (setq spacemacs-layouts-directory "/Users/xin/Documents/Garage/orgible/workspace/")
 (setq purpose-layout-dirs "/Users/xin/Documents/Garage/orgible/workspace/")
+(setq persp-save-dir "~/.emacs.d/persp-confs/")
+;; ===== python mode
+(setq-default python-fill-column 99)
+;; (setq-default lsp-python-ms-executable "~/Downloads/python-language-server/output/bin/Release/osx-x64/publish/Microsoft.Python.LanguageServer")
+;; (setq-default flycheck-python-flake8-executable "python3")
+;; (setq-default live-py-version "python3")
+;; (setq-default flycheck-python-flake8-executable "python3")
+;; (setq-default flycheck-python-pycompile-executable "python3")
+;; ===== verilog mode
+(setq verilog-indent-level             4
+      verilog-indent-level-module      4
+      verilog-indent-level-declaration 4
+      verilog-indent-level-behavioral  4
+      verilog-indent-level-directive   4
+      verilog-cexp-indent              4
+      verilog-case-indent              4
+      verilog-auto-newline             t
+      verilog-auto-indent-on-newline   t
+      verilog-tab-always-indent        t
+      verilog-indent-begin-after-if    nil
+      verilog-auto-endcomments         t
+      verilog-minimum-comment-distance 40
+      verilog-auto-lineup              'all
+      verilog-highlight-p1800-keywords nil
+
+      verilog-linter                   "verilator"
+      verilog-compiler                 "iverilog"
+      verilog-coverage                 ""
+      verilog-preprocessor             ""
+      verilog-simulator                ""
+      verilog-case-fold                nil
+      verilog-auto-arg-sort            nil
+      verilog-align-ifelse             t
+      verilog-auto-read-includes       t
+      verilog-indent-declaration-macros t
+
+      flycheck-verilog-verilator-executable "verilator"
+      lsp-clients-verilog-executable   "hdl_checker"
+      )
+(add-hook 'verilog-mode-hook 'company-mode)
+(add-hook 'verilog-mode-hook 'flycheck-mode)
+(add-hook 'verilog-mode-hook 'lsp-ui-mode)
+(setq flycheck-check-syntax-automatically '(save ))
