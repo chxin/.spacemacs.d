@@ -85,3 +85,67 @@
   "Remove overlays for this mode."
   (mapc 'delete-overlay org-present-overlays-list)
   (remove-from-invisibility-spec '(org-present)))
+;; ===== verilog mode
+(defvar verilog-inst-name nil)
+(defvar verilog-inst-port nil)
+(defun verilog-get-module-name ()
+  "Get module name"
+  (interactive)
+  (save-excursion
+    (when (verilog-re-search-backward "\\bmodule\\b" nil t)
+      (skip-syntax-forward "w_")
+      (when (verilog-re-search-forward "[a-zA-Z][a-zA-Z0-9_]*" nil t)
+        (match-string-no-properties 0)))))
+(defun verilog-insert-tb (mod_name)
+  (interactive)
+  (insert "`timescale 1ns/100ps\n")
+  (insert (format  "module %s %s" (format "%s_tb" mod_name) " (/*AUTOARG*/);"))
+  (insert "
+
+    /*AUTOREGINPUT*/
+    /*AUTOWIRE*/
+    "
+    (format "%s" mod_name) " uut(/*AUTOINST*/);
+
+    initial begin : STIMULUS
+        /*$sdf_annotate ( <\"sdf_file\">, <module_instance>?,
+        <\"config_file\">?, <\"log_file\">?, <\"mtm_spec\">?,
+        <\"scale_factors\">?, <\"scale_type\">? );*/
+        $dumpfile(\"wave\");
+        $dumpvars(0, " (format "%s" verilog-inst-name)  "_tb);
+        <stimulus>
+        #2000 $finish;
+    end
+
+endmodule // " (format "%s" mod_name) "_tb")
+(insert "\n// Local Variables:
+// verilog-library-flags:(\"-y ../ -y ./\")
+// End:
+
+"))
+(defun verilog-create-tb()
+  "Create a testbench file for current module..."
+  (interactive)
+  (setq verilog-inst-name (verilog-get-module-name))
+  (setq verilog-inst-ports (verilog-read-decls))
+  (switch-to-buffer (format "%s-testbench.v" verilog-inst-name))
+  (verilog-mode)
+  (goto-char (point-max))
+  (verilog-insert-tb verilog-inst-name)
+  (goto-line 1)
+  ;; (search-forward "<REFERENCE>") (replace-match verilog-inst-name t t);
+
+  ;; insert values table
+  ;; (search-forward "<table>") (replace-match "" t t);
+  ;; (insert "#+NAME: TABLE0\n")
+  ;; (insert "|Ports\\\No.|0|\n")
+  ;; (insert "|-")
+  ;; (dolist (port (verilog-decls-get-inputs verilog-inst-ports))
+  ;;   (insert (concat "|" (car port) "| \n")))
+
+  ;; insert default values of input port
+  (search-forward "<stimulus>") (replace-match "" t t);
+  (verilog-indent-line-relative)
+  (dolist (port (verilog-decls-get-inputs verilog-inst-ports))
+    (insert (concat (car port) " = 'd0;\n"))
+    (verilog-indent-line-relative)))

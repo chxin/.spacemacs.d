@@ -38,24 +38,6 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     (auto-completion :variables
-                      auto-completion-return-key-behavior 'complete
-                      auto-completion-tab-key-behavior 'cycle
-                      auto-completion-complete-with-key-sequence "gk"
-                      auto-completion-complete-with-key-sequence-delay 0.1
-                      auto-completion-minimum-prefix-length 2
-                      auto-completion-idle-delay 0.2
-                      auto-completion-private-snippets-directory nil
-                      auto-completion-enable-snippets-in-popup nil
-                      auto-completion-enable-sort-by-usage t
-                      auto-completion-enable-help-tooltip t
-                      auto-completion-use-company-box t
-                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
-                      :enabled-for-modes
-                      c c++ verilog python
-                      :disabled-for-modes
-                      org
-                      )
      (better-defaults :variables better-defaults-move-to-end-of-code-first t)
      emacs-lisp
      git
@@ -117,6 +99,23 @@ This function should only modify configuration layer settings."
      (dash :variables
            dash-autoload-common-docsets nil
            dash-docs-docset-newpath "~/Library/ApplicationSupport/Dash/DocSets")
+     (auto-completion :variables
+                      auto-completion-return-key-behavior nil
+                      auto-completion-tab-key-behavior 'cycle
+                      auto-completion-complete-with-key-sequence "jk"
+                      auto-completion-complete-with-key-sequence-delay 0.1
+                      auto-completion-minimum-prefix-length 2
+                      auto-completion-idle-delay 0.2
+                      auto-completion-enable-snippets-in-popup t
+                      auto-completion-enable-sort-by-usage t
+                      auto-completion-enable-help-tooltip t
+                      auto-completion-use-company-box t
+                      auto-completion-private-snippets-directory "~/.spacemacs.d/snippets"
+                      :enabled-for
+                      elisp c c++ verilog python
+                      :disabled-for
+                      org
+                      )
      xinstool
      )
 

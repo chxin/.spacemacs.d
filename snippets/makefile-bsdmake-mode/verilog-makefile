@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# name: verilog-makefile
+# key: veri-make
+# --
+OBJECTS := $(wildcard *.v)
+
+compile: $(OBJECTS)
+  iverilog -o wave $^
+
+run: compile
+  vvp ./wave
+
+vcd: compile
+  vvp -n ./wave -lxt2
+
+wave: vcd
+  # open -a Scansion counter.vcd
+  open -a gtkwave wave.vcd --args "-S signal-wave.tcl"

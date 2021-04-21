@@ -3,5 +3,7 @@
 # group: verilog
 # --
 module ${1:`(file-name-base (buffer-name))`} (/*AUTOARG*/);
-   $0
-endmodule: $1
+    /*AUTOWIRE*/
+    /*AUTOREG*/
+    $0
+endmodule // $1

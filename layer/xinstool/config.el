@@ -253,6 +253,14 @@
       lsp-clients-verilog-executable   "hdl_checker"
       )
 (add-hook 'verilog-mode-hook 'company-mode)
+(add-hook 'verilog-mode-hook 'auto-complete-mode)
 (add-hook 'verilog-mode-hook 'flycheck-mode)
 (add-hook 'verilog-mode-hook 'lsp-ui-mode)
-(setq flycheck-check-syntax-automatically '(save ))
+(add-hook 'verilog-mode-hook
+          (lambda ()
+            (setq fill-column 79)
+            ))
+(setq flycheck-check-syntax-automatically '(save))
+;; ====== complete
+(setf yas-indent-line 'fixed)
+(defvaralias 'helm-c-yas-space-match-any-greedy 'helm-yas-space-match-any-greedy)
